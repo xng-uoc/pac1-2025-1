@@ -1,0 +1,99 @@
+name: pac1-2025-1
+topology:
+  nodes:
+    bridge01:
+      kind: bridge
+      labels:
+        graph-icon: switch
+    bridge02:
+      kind: bridge
+      labels:
+        graph-icon: switch
+    bridge03:
+      kind: bridge
+      labels:
+        graph-icon: switch
+    host11:
+      kind: linux
+      image: ghcr.io/peretuset/alpine:latest
+      mgmt-ipv4: 172.20.20.11
+      labels:
+        graph-icon: host
+    host12:
+      kind: linux
+      image: ghcr.io/peretuset/alpine:latest
+      mgmt-ipv4: 172.20.20.12
+      labels:
+        graph-icon: host
+    host21:
+      kind: linux
+      image: ghcr.io/peretuset/alpine:latest
+      mgmt-ipv4: 172.20.20.21
+      labels:
+        graph-icon: host
+    host22:
+      kind: linux
+      image: ghcr.io/peretuset/alpine:latest
+      mgmt-ipv4: 172.20.20.22
+      labels:
+        graph-icon: host
+    host31:
+      kind: linux
+      image: ghcr.io/peretuset/alpine:latest
+      mgmt-ipv4: 172.20.20.31
+      labels:
+        graph-icon: host
+    host32:
+      kind: linux
+      image: ghcr.io/peretuset/alpine:latest
+      mgmt-ipv4: 172.20.20.32
+      labels:
+        graph-icon: host
+    vyos01:
+      kind: vyosnetworks_vyos
+      image: ghcr.io/peretuset/vyos:latest
+      mgmt-ipv4: 172.20.20.41
+      labels:
+        graph-icon: router
+    vyos02:
+      kind: vyosnetworks_vyos
+      image: ghcr.io/peretuset/vyos:latest
+      mgmt-ipv4: 172.20.20.42
+      labels:
+        graph-icon: router
+    vyos03:
+      kind: vyosnetworks_vyos
+      image: ghcr.io/peretuset/vyos:latest
+      mgmt-ipv4: 172.20.20.43
+      labels:
+        graph-icon: router
+    ssh:
+      kind: linux
+      image: netreplica/graphite
+      mgmt-ipv4: 172.20.20.100
+      env:
+        CLAB_SSH_CONNECTION: ${SSH_CONNECTION}
+      binds:
+        - __clabDir__/topology-data.json:/htdocs/default/default.json:ro
+        - __clabDir__/ansible-inventory.yml:/htdocs/lab/default/ansible-invento>
+      ports:
+        - 8080:80
+      exec:
+        - sh -c 'graphite_motd.sh 8080'
+      labels:
+        graph-hide: yes
+  links:
+    - endpoints: ["vyos01:eth1", "vyos02:eth1"]
+    - endpoints: ["vyos01:eth2", "vyos03:eth2"]
+    - endpoints: ["vyos01:eth3", "bridge01:eth10"]
+    - endpoints: ["bridge01:eth11", "host11:eth1"]
+    - endpoints: ["bridge01:eth12", "host12:eth1"]
+
+    - endpoints: ["vyos02:eth2", "vyos03:eth1"]
+    - endpoints: ["vyos02:eth3", "bridge02:eth20"]
+    - endpoints: ["bridge02:eth21", "host21:eth1"]
+    - endpoints: ["bridge02:eth22", "host22:eth1"]
+
+    - endpoints: ["vyos03:eth3", "bridge03:eth30"]
+    - endpoints: ["bridge03:eth31", "host31:eth1"]
+    - endpoints: ["bridge03:eth32", "host32:eth1"]
