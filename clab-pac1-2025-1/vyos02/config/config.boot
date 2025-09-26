@@ -4,7 +4,7 @@ interfaces {
     }
     ethernet eth0 {
         address "172.20.20.42/24"
-        address "3fff:172:20:20::3/64"
+        address "3fff:172:20:20::a/64"
         description "Management Interface"
     }
     ethernet eth1 {
@@ -51,6 +51,9 @@ protocols {
         interface eth3 {
             passive {
             }
+        }
+        parameters {
+            router-id "2.2.2.2"
         }
     }
 }
