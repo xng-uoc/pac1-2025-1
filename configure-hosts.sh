@@ -35,6 +35,6 @@ sudo docker exec -d clab-$clab_name-host31 ip link set eth1 up
 sudo docker exec -d clab-$clab_name-host32 ip link set eth1 up
 sudo docker exec -d clab-$clab_name-host31 ip addr add 192.168.3.31/24 dev eth1
 sudo docker exec -d clab-$clab_name-host32 ip addr add 192.168.3.32/24 dev eth1
-sudo docker exec -d clab-$clab_name-host31 ip route add default via 192.168.31.1
+sudo docker exec -d clab-$clab_name-host31 ip route add default via 192.168.3.1
 sudo docker exec -d clab-$clab_name-host32 ip route add default via 192.168.3.1
 printf " done!\n"
